@@ -4,21 +4,35 @@ const { writeFile, createFolders } = 1; // require("...JS file, write HTML File 
 
 // WHEN I start the application
 // THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
+let employeesData = [];
 
 const promptEmployee = () => {
-  return inquirer.prompt([
-    {
-      type: "checkbox",
-      name: "profileType",
-      message: "What profile type would you like to create?",
-      choices: ["Manager", "Engineer", "Intern"],
-    },
-  ]);
+  return inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "profileType",
+        message: "What profile type would you like to create?",
+        choices: ["Manager", "Engineer", "Intern", "None"],
+      },
+    ])
+    .then((data) => {
+      switch (data.profileType) {
+        case "Manager":
+          return promptManager();
+        case "Engineer":
+          return promptEngineer();
+        case "Intern":
+          return promptIntern();
+        case "None":
+          break;
+      }
+    });
 };
 
 // WHEN I enter the team manager’s name, employee ID, email address, and office number
 // THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
-const promptManager = (profileData) => {
+const promptManager = () => {
   console.log(`
   ===============
   Add a New Manager
@@ -26,19 +40,19 @@ const promptManager = (profileData) => {
   `);
 
   // if there's no 'manager' array property, create one
-  if (!portfolioData.managers) {
-    portfolioData.managers = [];
-  }
+  // if (!employeesData.managers) {
+  //   employeesData.managers = [];
+  // }
 
   return inquirer
     .prompt([
       // Manager Name
       {
+        name: "name",
         type: "input",
-        name: "managerName",
         message: "What is the name of the manager you would like to create?",
-        validate: (managerNameInput) => {
-          if (managerNameInput) {
+        validate: (name) => {
+          if (name) {
             return true;
           } else {
             console.log("Please enter a name!");
@@ -46,13 +60,13 @@ const promptManager = (profileData) => {
           }
         },
       },
-      // Manager ID
+      // Manager Employee ID
       {
+        name: "id",
         type: "input",
-        name: "managerId",
         message: "What is the ID# of the manager you would like to create?",
-        validate: (managerIdInput) => {
-          if (managerIdInput) {
+        validate: (id) => {
+          if (id) {
             return true;
           } else {
             console.log("Please enter an ID#!");
@@ -62,11 +76,11 @@ const promptManager = (profileData) => {
       },
       // Manager Email
       {
+        name: "email",
         type: "input",
-        name: "managerEmail",
         message: "What is the email of the manager you would like to create?",
-        validate: (managerEmailInput) => {
-          if (managerEmailInput) {
+        validate: (email) => {
+          if (email) {
             return true;
           } else {
             console.log("Please enter an email!");
@@ -74,41 +88,33 @@ const promptManager = (profileData) => {
           }
         },
       },
-      // Manager Github Username
+      // Manager Office Number
       {
+        name: "officeNumber",
         type: "input",
-        name: "managerGithub",
-        message: "What is the  manager's Github username?",
-        validate: (managerGithubInput) => {
-          if (managerGithubInput) {
+        message: "What is the  manager's office number?",
+        validate(number) {
+          const pass = number.match(
+            /^([01]{1})?[-.\s]?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?){1}(?:\d+)?)?$/i
+          );
+          if (pass) {
             return true;
-          } else {
-            console.log("Please enter the manager's Github username!");
-            return false;
           }
+
+          return "Please enter a valid phone number";
         },
       },
-      {
-        type: "confirm",
-        name: "confirmAddEmployee",
-        message: "Would you like to enter another project?",
-        default: false,
-      },
     ])
-    .then((profileData) => {
-      portfolioData.manager.push(profileData);
-      if (profileData.confirmAddEmployee) {
-        return promptEmployee();
-      } else {
-        console.log(profileData);
-        return profileData;
-      }
+    .then((data) => {
+      data.role = "Manager";
+      // employeesData.managers.push(data);
+      return promptEmployee();
     });
 };
 
 // WHEN I select the engineer option
 // THEN I am prompted to enter the engineer’s name, ID, email, and GitHub username, and I am taken back to the menu
-const promptEngineer = (profileData) => {
+const promptEngineer = () => {
   console.log(`
   ===============
   Add a New Engineer
@@ -116,19 +122,19 @@ const promptEngineer = (profileData) => {
   `);
 
   // if there's no 'engineer' array property, create one
-  if (!portfolioData.engineers) {
-    portfolioData.engineers = [];
-  }
+  // if (!employeesData.engineers) {
+  //   employeesData.engineers = [];
+  // }
 
   return inquirer
     .prompt([
       // Engineer Name
       {
+        name: "name",
         type: "input",
-        name: "engineerName",
         message: "What is the name of the engineer you would like to create?",
-        validate: (engineerNameInput) => {
-          if (engineerNameInput) {
+        validate: (name) => {
+          if (name) {
             return true;
           } else {
             console.log("Please enter a name!");
@@ -138,11 +144,11 @@ const promptEngineer = (profileData) => {
       },
       // Engineer ID
       {
+        name: "id",
         type: "input",
-        name: "engineerId",
         message: "What is the ID# of the engineer you would like to create?",
-        validate: (engineerIdInput) => {
-          if (engineerIdInput) {
+        validate: (id) => {
+          if (id) {
             return true;
           } else {
             console.log("Please enter an ID#!");
@@ -152,11 +158,11 @@ const promptEngineer = (profileData) => {
       },
       // Engineer Email
       {
+        name: "email",
         type: "input",
-        name: "engineerEmail",
         message: "What is the email of the engineer you would like to create?",
-        validate: (engineerEmailInput) => {
-          if (engineerEmailInput) {
+        validate: (email) => {
+          if (email) {
             return true;
           } else {
             console.log("Please enter an email!");
@@ -166,11 +172,11 @@ const promptEngineer = (profileData) => {
       },
       // Engineer Github Username
       {
+        name: "github",
         type: "input",
-        name: "engineerGithub",
         message: "What is the  engineer's Github username?",
-        validate: (engineerGithubInput) => {
-          if (engineerGithubInput) {
+        validate: (github) => {
+          if (github) {
             return true;
           } else {
             console.log("Please enter the engineer's Github username!");
@@ -178,27 +184,17 @@ const promptEngineer = (profileData) => {
           }
         },
       },
-      {
-        type: "confirm",
-        name: "confirmAddEmployee",
-        message: "Would you like to enter another project?",
-        default: false,
-      },
     ])
-    .then((profileData) => {
-      portfolioData.engineer.push(profileData);
-      if (profileData.confirmAddEmployee) {
-        return promptEmployee();
-      } else {
-        console.log(profileData);
-        return profileData;
-      }
+    .then((data) => {
+      data.role = "Engineer";
+      // employeesData.engineers.push(data);
+      return promptEmployee();
     });
 };
 
 // WHEN I select the intern option
 // THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
-const promptIntern = (profileData) => {
+const promptIntern = () => {
   console.log(`
   ===============
   Add a New Intern
@@ -206,19 +202,19 @@ const promptIntern = (profileData) => {
   `);
 
   // if there's no 'intern' array property, create one
-  if (!portfolioData.interns) {
-    portfolioData.interns = [];
-  }
+  // if (!employeesData.interns) {
+  //   employeesData.interns = [];
+  // }
 
   return inquirer
     .prompt([
-      // Manager Name
+      // Intern Name
       {
+        name: "name",
         type: "input",
-        name: "internName",
         message: "What is the name of the intern you would like to create?",
-        validate: (internNameInput) => {
-          if (internNameInput) {
+        validate: (name) => {
+          if (name) {
             return true;
           } else {
             console.log("Please enter a name!");
@@ -226,13 +222,13 @@ const promptIntern = (profileData) => {
           }
         },
       },
-      // Manager ID
+      // Intern ID
       {
+        name: "id",
         type: "input",
-        name: "internId",
         message: "What is the ID# of the intern you would like to create?",
-        validate: (internIdInput) => {
-          if (internIdInput) {
+        validate: (id) => {
+          if (id) {
             return true;
           } else {
             console.log("Please enter an ID#!");
@@ -240,13 +236,13 @@ const promptIntern = (profileData) => {
           }
         },
       },
-      // Manager Email
+      // Intern Email
       {
+        name: "email",
         type: "input",
-        name: "internEmail",
         message: "What is the email of the intern you would like to create?",
-        validate: (internEmailInput) => {
-          if (internEmailInput) {
+        validate: (email) => {
+          if (email) {
             return true;
           } else {
             console.log("Please enter an email!");
@@ -254,13 +250,13 @@ const promptIntern = (profileData) => {
           }
         },
       },
-      // Manager Github Username
+      // Intern School
       {
+        name: "school",
         type: "input",
-        name: "internGithub",
-        message: "What is the  intern's Github username?",
-        validate: (internGithubInput) => {
-          if (internGithubInput) {
+        message: "What is the intern's school?",
+        validate: (school) => {
+          if (school) {
             return true;
           } else {
             console.log("Please enter the intern's Github username!");
@@ -268,23 +264,17 @@ const promptIntern = (profileData) => {
           }
         },
       },
-      {
-        type: "confirm",
-        name: "confirmAddEmployee",
-        message: "Would you like to enter another project?",
-        default: false,
-      },
     ])
-    .then((profileData) => {
-      portfolioData.intern.push(profileData);
-      if (profileData.confirmAddEmployee) {
-        return promptEmployee();
-      } else {
-        console.log(profileData);
-        return profileData;
-      }
+    .then((data) => {
+      data.role = "Intern";
+      // employeesData.interns.push(data);
+      return promptEmployee();
     });
 };
+
+promptEmployee().then(() => {
+  console.log(employeesData);
+});
 
 // WHEN I decide to finish building my team
 // THEN I exit the application, and the HTML is generated
