@@ -1,32 +1,49 @@
 const fs = require("fs");
-const manager = require("../lib/Manager");
-const engineer = require("../lib/engineer");
-const intern = require("../lib/Intern");
+const Manager = require("../lib/Manager");
+const Engineer = require("../lib/engineer");
+const Intern = require("../lib/Intern");
+
+// const employeesData = [
+//   {
+//     name: "a",
+//     id: "a",
+//     email: "a",
+//     officeNumber: "111.111.1111",
+//     role: "Manager",
+//   },
+//   { name: "b", id: "b", email: "b", github: "b", role: "Engineer" },
+//   { name: "c", id: "c", email: "c", github: "c", role: "Engineer" },
+//   { name: "d", id: "d", email: "d", github: "d", role: "Engineer" },
+//   { name: "e", id: "e", email: "e", school: "e", role: "Intern" },
+//   { name: "f", id: "f", email: "f", school: "f", role: "Intern" },
+//   { name: "g", id: "g", email: "g", school: "g", role: "Intern" },
+//   { name: "h", id: "h", email: "h", school: "h", role: "Intern" },
+// ];
 
 const generateTeam = (employeesData) => {
   return new Promise((resolve, reject) => {
     let teamObj = employeesData.map((employee) => {
       switch (employee.role) {
-        case "manager":
+        case "Manager":
           return new Manager(
-            member.name,
-            member.id,
-            member.email,
-            member.officeNumber
+            employee.name,
+            employee.id,
+            employee.email,
+            employee.officeNumber
           );
-        case "engineer":
+        case "Engineer":
           return new Engineer(
-            member.name,
-            member.id,
-            member.email,
-            member.github
+            employee.name,
+            employee.id,
+            employee.email,
+            employee.github
           );
-        case "intern":
+        case "Intern":
           return new Intern(
-            member.name,
-            member.id,
-            member.email,
-            member.school
+            employee.name,
+            employee.id,
+            employee.email,
+            employee.school
           );
       }
     });
@@ -37,6 +54,14 @@ const generateTeam = (employeesData) => {
     });
   });
 };
+
+// const output = () => {
+//   generateTeam(employeesData).then((reponse) => {
+//     console.log(reponse.data);
+//   });
+// };
+
+// output();
 
 const generateHTML = () => {
   return `<!DOCTYPE html>
@@ -121,4 +146,10 @@ const copyFile = () => {
   });
 };
 
-module.exports = { generateHTML, writeFile, createFolders, copyFile };
+module.exports = {
+  generateTeam,
+  // generateHTML,
+  // writeFile,
+  // createFolders,
+  // copyFile,
+};

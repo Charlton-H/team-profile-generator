@@ -1,6 +1,11 @@
 const inquirer = require("inquirer");
-const generateHTML = 1; // require("...JS file for HTML template")
-const { writeFile, createFolders } = 1; // require("...JS file, write HTML File and copy CSS file")
+const {
+  generateTeam,
+  // generateHTML,
+  // writeFile,
+  // createFolders,
+  // copyFile,
+} = require("./src/utils");
 
 // WHEN I start the application
 // THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
@@ -108,6 +113,7 @@ const promptManager = () => {
     .then((data) => {
       data.role = "Manager";
       // employeesData.managers.push(data);
+      employeesData.push(data);
       return promptEmployee();
     });
 };
@@ -188,6 +194,7 @@ const promptEngineer = () => {
     .then((data) => {
       data.role = "Engineer";
       // employeesData.engineers.push(data);
+      employeesData.push(data);
       return promptEmployee();
     });
 };
@@ -268,13 +275,20 @@ const promptIntern = () => {
     .then((data) => {
       data.role = "Intern";
       // employeesData.interns.push(data);
+      employeesData.push(data);
       return promptEmployee();
     });
 };
 
-promptEmployee().then(() => {
-  console.log(employeesData);
-});
+promptEmployee()
+  .then(() => {
+    // console.log(employeesData);
+    generateTeam(employeesData);
+  })
+  .then((response) => {
+    console.log(response);
+    return response;
+  });
 
 // WHEN I decide to finish building my team
 // THEN I exit the application, and the HTML is generated
