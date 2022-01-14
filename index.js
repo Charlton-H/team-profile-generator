@@ -106,7 +106,7 @@ const promptManager = () => {
             return true;
           }
 
-          return "Please enter a valid phone number";
+          return "Please enter a valid phone number E.G. xxx.xxx.xxxx";
         },
       },
     ])
