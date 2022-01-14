@@ -30,7 +30,7 @@ const promptEmployee = () => {
         case "Intern":
           return promptIntern();
         case "None":
-          break;
+          return Promise.resolve();
       }
     });
 };
@@ -280,28 +280,13 @@ const promptIntern = () => {
     });
 };
 
-promptEmployee()
-  .then(() => {
-    // console.log(employeesData);
-    generateTeam(employeesData);
-  })
-  .then((response) => {
-    console.log(response);
-    return response;
-  });
-
-// WHEN I decide to finish building my team
-// THEN I exit the application, and the HTML is generated
-
-// ------------------------------------------------------------------------------
-
-// GIVEN a command-line application that accepts user input
-
-// WHEN I am prompted for my team members and their information
-// THEN an HTML file is generated that displays a nicely formatted team roster based on user input
-
-// WHEN I click on an email address in the HTML
-// THEN my default email program opens and populates the TO field of the email with the address
-
-// WHEN I click on the GitHub username
-// THEN that GitHub profile opens in a new tab
+promptEmployee().then(() => {
+  // console.log(employeesData);
+  generateTeam(employeesData);
+  var teamObj = generateTeam(employeesData);
+  console.log(teamObj);
+  // generateHTML(team.data);
+});
+// .then((response) => {
+//   console.log(response.data);
+// });
