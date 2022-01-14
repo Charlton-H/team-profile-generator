@@ -3,7 +3,7 @@ const Manager = require("../lib/Manager");
 const Engineer = require("../lib/engineer");
 const Intern = require("../lib/Intern");
 
-// const employeesData = [
+// const teamData = [
 //   {
 //     name: "a",
 //     id: "a",
@@ -56,7 +56,7 @@ const generateTeam = (employeesData) => {
 };
 
 // const output = () => {
-//   generateTeam(employeesData).then((reponse) => {
+//   generateTeam(teamData).then((reponse) => {
 //     console.log(reponse.data);
 //   });
 // };
