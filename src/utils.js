@@ -39,14 +39,14 @@ const generateTeam = (employeesData) => {
   // });
 };
 
-// THEN an HTML file is generated that displays a nicely formatted team roster based on user input
-// WHEN I click on an email address in the HTML
-// THEN my default email program opens and populates the TO field of the email with the address
-// WHEN I click on the GitHub username
-// THEN that GitHub profile opens in a new tab
+const generateHTML = (teamObj) => {
+  // function that will loop through obj
+  // for each employee in obj
+  // identify role and set condition
+  // add html and css
 
-const generateHTML = () => {
-  return `<!DOCTYPE html>
+  const html = [
+    `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -57,31 +57,71 @@ const generateHTML = () => {
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
   />
-  <link rel="stylesheet" href="./Assets/css/styles.css" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body>
     <header class="hero">
-      <h1 class="app-title">Weather Dashboard</h1>
+      <h1 class="app-title">Employee Team List</h1>
     </header>
 
     <main>
       <div class="col-12 col-md-9">
-        <div class="forecast-container">
-          <h2 class="subtitle">
-            <span id="city-forecast"></span>
-          </h2>
-          <div class="forecast"></div>
+        <div class="team-employees-container container">
+          <div class="employee container">
+          <div class="row">
+          <!-- Team Cards -->
+      `,
+  ];
+
+  for (const employee of teamObj) {
+    switch (employee.role) {
+      case "Manager":
+        employeeMiscDetail = `<li class="list-group-item">Office Number: ${employee.officeNumber}</li>`;
+        break;
+      case "Engineer":
+        employeeMiscDetail = `<li class="list-group-item">Github: <a href="https://github.com/${employee.github}">${employee.github}</a></li>`;
+        break;
+      case "Intern":
+        employeeMiscDetail = `<li class="list-group-item">School: ${employee.school}</li>`;
+        break;
+    }
+
+    html.push(`
+    <div class="card  shadow-5 " style="width: 18rem;">
+        <div class="card-header">
+            <h3>${employee.name}</h3>
+            <h4><i class="fa fa-mug-hot mr-2"></i>${employee.role}</h4>
         </div>
-      </div>
-    </main>
-  </body>
+        <div class="card-body border border-primary">
+            <div class="card" style="width: 15rem;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: ${employee.id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                    ${employeeMiscDetail}
+                </ul>
+            </div>
+        </div>
+    </div>
+`);
+  }
+  // Close body and html tags
+  html.push(
+    `
+    </div>
+    </div>
+  </div>
+</div>
+</main>
+</body>
 </html>
-`;
+    `
+  );
+  return html.join("");
 };
 
 const writeFile = (fileContent) => {
   return new Promise((resolve, reject) => {
-    fs.writeFile("./dist/README.md", fileContent, (err) => {
+    fs.writeFile("./dist/employees.html", fileContent, (err) => {
       // if there's an error, reject the Promise and send the error to the Promise's '.catch()' method
       if (err) {
         reject(err);
@@ -130,8 +170,8 @@ const copyFile = () => {
 
 module.exports = {
   generateTeam,
-  // generateHTML,
-  // writeFile,
+  generateHTML,
+  writeFile,
   // createFolders,
   // copyFile,
 };

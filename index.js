@@ -1,8 +1,8 @@
 const inquirer = require("inquirer");
 const {
   generateTeam,
-  // generateHTML,
-  // writeFile,
+  generateHTML,
+  writeFile,
   // createFolders,
   // copyFile,
 } = require("./src/utils");
@@ -282,10 +282,12 @@ const promptIntern = () => {
 
 promptEmployee().then(() => {
   // console.log(employeesData);
-  generateTeam(employeesData);
+  // generateTeam(employeesData);
   var teamObj = generateTeam(employeesData);
-  console.log(teamObj);
-  // generateHTML(team.data);
+  // console.log(teamObj);
+  var html = generateHTML(teamObj);
+  console.log(html);
+  writeFile(html);
 });
 // .then((response) => {
 //   console.log(response.data);
