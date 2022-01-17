@@ -3,8 +3,8 @@ const {
   generateTeam,
   generateHTML,
   writeFile,
-  // createFolders,
-  // copyFile,
+  createFolders,
+  copyFile,
 } = require("./src/utils");
 
 // WHEN I start the application
@@ -288,7 +288,6 @@ promptEmployee().then(() => {
   var html = generateHTML(teamObj);
   console.log(html);
   writeFile(html);
+  createFolders();
+  copyFile();
 });
-// .then((response) => {
-//   console.log(response.data);
-// });

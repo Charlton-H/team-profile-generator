@@ -65,7 +65,7 @@ const generateHTML = (teamObj) => {
     </header>
 
     <main>
-      <div class="col-12 col-md-9">
+      <div class="col-12">
         <div class="team-employees-container container">
           <div class="employee container">
           <div class="row">
@@ -140,7 +140,7 @@ const writeFile = (fileContent) => {
 
 const createFolders = () => {
   return new Promise((resolve, reject) => {
-    fs.mkdir("./dist/assets/images", { recursive: true }, (err) => {
+    fs.mkdir("./dist/assets/css", { recursive: true }, (err) => {
       if (err) {
         reject(err);
         return;
@@ -155,16 +155,20 @@ const createFolders = () => {
 
 const copyFile = () => {
   return new Promise((resolve, reject) => {
-    fs.copyFile("./src/style.css", "./dist/style.css", (err) => {
-      if (err) {
-        reject(err);
-        return;
+    fs.copyFile(
+      "./src/assets/css/styles.css",
+      "./dist/assets/css/styles.css",
+      (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve({
+          ok: true,
+          message: "Style sheet copied successfully!",
+        });
       }
-      resolve({
-        ok: true,
-        message: "Style sheet copied successfully!",
-      });
-    });
+    );
   });
 };
 
@@ -172,6 +176,6 @@ module.exports = {
   generateTeam,
   generateHTML,
   writeFile,
-  // createFolders,
-  // copyFile,
+  createFolders,
+  copyFile,
 };
