@@ -10,7 +10,7 @@ This tool allows users to create a team profile. By using Inquirer, users will b
 
 ![demo](./src/team-profile-generator-demo.PNG)
 
-![video](https://drive.google.com/file/d/1kQJnC6idSrKtKg8Sd6jsyzTsH94DPzhD/view?usp=sharing)
+![video]()(https://drive.google.com/file/d/1kQJnC6idSrKtKg8Sd6jsyzTsH94DPzhD/view?usp=sharing)
 
 ## Built With
 
